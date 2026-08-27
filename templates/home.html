@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center min-vh-75">
+
+            <div class="col-lg-7">
+
+                <span class="badge hero-badge mb-3">
+                    Python • Flask • Web Development
+                </span>
+
+                <h1 class="hero-title">
+                    Build beautiful web applications
+                    with <span>Flask</span>
+                </h1>
+
+                <p class="hero-text">
+                    A simple, clean and modern Flask application
+                    designed as a starting point for your next project.
+                </p>
+
+                <div class="mt-4">
+
+                    <a href="/about" class="btn btn-primary btn-lg me-2">
+                        Explore
+                    </a>
+
+                    <a href="/contact" class="btn btn-outline-light btn-lg">
+                        Contact Us
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-5 mt-5 mt-lg-0">
+
+                <div class="hero-card">
+
+                    <div class="code-header">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello Flask!"
+
+app.run()</code></pre>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2>Why Flask?</h2>
+
+            <p class="section-description">
+                Simple enough to learn, powerful enough to build real applications.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚡
+                    </div>
+
+                    <h4>Lightweight</h4>
+
+                    <p>
+                        Flask provides everything you need without
+                        unnecessary complexity.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🎨
+                    </div>
+
+                    <h4>Flexible</h4>
+
+                    <p>
+                        Create your own architecture and add only
+                        the components your application needs.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🚀
+                    </div>
+
+                    <h4>Production Ready</h4>
+
+                    <p>
+                        Flask can grow from a small learning project
+                        into a production application.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

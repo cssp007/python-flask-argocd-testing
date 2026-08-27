@@ -1,0 +1,200 @@
+name: Build and Deploy Flask App
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  DOCKER_IMAGE: cssp007143/flask-basic-app
+
+jobs:
+
+  # ============================================================
+  # Build Docker Image
+  # ============================================================
+
+  build:
+    name: Build and Push Flask Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ----------------------------------------------------------
+      # 1. Checkout application source code
+      # ----------------------------------------------------------
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+
+      # ----------------------------------------------------------
+      # 2. Setup Docker Buildx
+      # ----------------------------------------------------------
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+
+      # ----------------------------------------------------------
+      # 3. Login to Docker Hub
+      # ----------------------------------------------------------
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
+      # ----------------------------------------------------------
+      # 4. Build Docker image
+      # ----------------------------------------------------------
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:latest
+            ${{ env.DOCKER_IMAGE }}:sha-${{ github.sha }}
+
+          # Load image into Docker daemon
+          load: true
+
+          # GitHub Actions Docker layer cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+      # ----------------------------------------------------------
+      # 5. Save Docker image as artifact
+      # ----------------------------------------------------------
+
+      - name: Save Docker image
+        run: |
+          docker save \
+            ${{ env.DOCKER_IMAGE }}:latest \
+            -o /tmp/flask-basic-app.tar
+
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flask-basic-app-docker-image
+          path: /tmp/flask-basic-app.tar
+          retention-days: 7
+
+
+      # ----------------------------------------------------------
+      # 6. Push Docker image to Docker Hub
+      # ----------------------------------------------------------
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.DOCKER_IMAGE }}:latest
+          docker push ${{ env.DOCKER_IMAGE }}:sha-${{ github.sha }}
+
+
+      # ----------------------------------------------------------
+      # 7. Display image information
+      # ----------------------------------------------------------
+
+      - name: Display image information
+        run: |
+
+          echo "======================================"
+          echo "Flask Docker image pushed successfully"
+          echo "======================================"
+
+          echo "Latest:"
+          echo "docker.io/${DOCKER_IMAGE}:latest"
+
+          echo "Commit:"
+          echo "docker.io/${DOCKER_IMAGE}:sha-${GITHUB_SHA}"
+
+          echo "======================================"
+
+
+      # ========================================================
+      # GitOps
+      # ========================================================
+
+      # ----------------------------------------------------------
+      # 8. Checkout GitOps repository
+      # ----------------------------------------------------------
+
+      - name: Checkout GitOps repository
+        uses: actions/checkout@v4
+        with:
+          repository: cssp007/gitops-repo
+          token: ${{ secrets.GITOPS_TOKEN }}
+          path: gitops
+
+
+      # ----------------------------------------------------------
+      # 9. Update image tag in GitOps repository
+      # ----------------------------------------------------------
+
+      - name: Update image tag
+        working-directory: gitops
+        run: |
+
+          IMAGE_TAG="sha-${GITHUB_SHA}"
+
+          echo "======================================"
+          echo "Updating GitOps image"
+          echo "======================================"
+
+          echo "Image:"
+          echo "docker.io/${DOCKER_IMAGE}:${IMAGE_TAG}"
+
+          sed -i \
+            "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" \
+            applications/flask-app/base/rollout.yaml
+
+          echo "======================================"
+          echo "Updated manifest:"
+          echo "======================================"
+
+          grep "image:" \
+            applications/flask-app/base/rollout.yaml
+
+
+      # ----------------------------------------------------------
+      # 10. Commit GitOps change
+      # ----------------------------------------------------------
+
+      - name: Commit GitOps change
+        working-directory: gitops
+        run: |
+
+          git config user.name "github-actions[bot]"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            applications/flask-app/base/rollout.yaml
+
+          git commit \
+            -m "Update flask-basic-app image to sha-${GITHUB_SHA}" \
+            || echo "No changes to commit"
+
+
+      # ----------------------------------------------------------
+      # 11. Push GitOps change
+      # ----------------------------------------------------------
+
+      - name: Push GitOps change
+        working-directory: gitops
+        run: |
+
+          git push

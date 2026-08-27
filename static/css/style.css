@@ -1,0 +1,219 @@
+body {
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+
+/* Navbar */
+
+.custom-navbar {
+    background: #0f172a;
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    margin-left: 15px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #60a5fa !important;
+}
+
+
+/* Hero */
+
+.hero {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(59, 130, 246, 0.25),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #1e3a8a
+        );
+
+    color: white;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.hero-title span {
+    color: #60a5fa;
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    max-width: 650px;
+    margin-top: 20px;
+}
+
+.hero-badge {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    padding: 8px 14px;
+}
+
+
+/* Code Card */
+
+.hero-card {
+    background: #020617;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+}
+
+.code-header {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 20px;
+}
+
+.code-header span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #64748b;
+}
+
+.hero-card pre {
+    margin: 0;
+    color: #cbd5e1;
+    font-size: 14px;
+    overflow-x: auto;
+}
+
+
+/* Features */
+
+.features {
+    padding: 80px 0;
+}
+
+.section-description {
+    color: #64748b;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 15px;
+    padding: 35px;
+    height: 100%;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.1);
+}
+
+.feature-icon {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+
+/* Internal Pages */
+
+.page-section {
+    padding: 80px 0;
+    min-height: 80vh;
+}
+
+.page-card {
+    background: white;
+    border-radius: 18px;
+    padding: 45px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.06);
+}
+
+.page-card h1 {
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.page-card h4 {
+    font-weight: 700;
+}
+
+
+/* Technologies */
+
+.technology-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.technology-list span {
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+
+/* Forms */
+
+.form-control {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+}
+
+
+/* Footer */
+
+.footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 25px 0;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .hero-title {
+        font-size: 2.6rem;
+    }
+
+    .hero-text {
+        font-size: 1rem;
+    }
+
+    .page-card {
+        padding: 25px;
+    }
+
+}
