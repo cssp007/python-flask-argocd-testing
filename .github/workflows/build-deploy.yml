@@ -159,14 +159,15 @@ jobs:
           echo "docker.io/${DOCKER_IMAGE}:${IMAGE_TAG}"
 
           sed -i \
-            "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" applications/frontend/base/rollout.yaml
+            "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" \
+            applications/frontend/base/rollout.yaml
 
           echo "======================================"
           echo "Updated manifest:"
           echo "======================================"
 
           grep "image:" \
-            applications/flask-app/base/rollout.yaml
+            applications/frontend/base/rollout.yaml
 
 
       # ----------------------------------------------------------
@@ -183,7 +184,7 @@ jobs:
             "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add \
-            applications/flask-app/base/rollout.yaml
+            applications/frontend/base/rollout.yaml
 
           git commit \
             -m "Update flask-basic-app image to sha-${GITHUB_SHA}" \
