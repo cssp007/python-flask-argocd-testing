@@ -146,6 +146,8 @@ jobs:
       - name: Update image tag
         working-directory: gitops
         run: |
+          
+          ls -la
 
           IMAGE_TAG="sha-${GITHUB_SHA}"
 
@@ -157,8 +159,7 @@ jobs:
           echo "docker.io/${DOCKER_IMAGE}:${IMAGE_TAG}"
 
           sed -i \
-            "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" \
-            applications/frontend/base/rollout.yaml
+            "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" applications/frontend/base/rollout.yaml
 
           echo "======================================"
           echo "Updated manifest:"
