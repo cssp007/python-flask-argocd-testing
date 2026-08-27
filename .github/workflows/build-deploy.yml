@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 env:
-  DOCKER_IMAGE: cssp007143/flask-basic-app
+  DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/flask-basic-app
 
 jobs:
 
