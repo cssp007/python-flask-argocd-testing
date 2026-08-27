@@ -158,7 +158,7 @@ jobs:
 
           sed -i \
             "s|image: docker.io/cssp007143/flask-basic-app:.*|image: docker.io/cssp007143/flask-basic-app:${IMAGE_TAG}|" \
-            applications/flask-app/base/rollout.yaml
+            applications/frontend/base/rollout.yaml
 
           echo "======================================"
           echo "Updated manifest:"
